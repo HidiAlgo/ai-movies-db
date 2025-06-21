@@ -9,6 +9,10 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongo-data:/data/db
+      - mongo-config:/data/configdb
+
 
   mongo-express:
     image: mongo-express
@@ -22,3 +26,6 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: password
       ME_CONFIG_MONGODB_SERVER: mongo
     command: sh -c "sleep 15 && npm start"
+volumes:
+  mongo-data:
+  mongo-config:
