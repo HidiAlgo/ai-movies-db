@@ -13,11 +13,8 @@ public class LogicService
     @Autowired
     MovieRepository movieRepository;
 
-    public void getAllMovies() {
+    public List<Movie> getAllMovies() {
         List<Movie> movieList = movieRepository.findAll();
-
-        movieList.forEach( movie -> {
-            System.out.println( movie.getTitle() );
-        });
+        return movieList;
     }
 }
