@@ -7,5 +7,5 @@ import java.net.URISyntaxException;
 
 public interface MoviesEmbeddingStore
 {
-    EmbeddingStore<TextSegment> getEmbeddingStore() throws URISyntaxException;
+
 }
