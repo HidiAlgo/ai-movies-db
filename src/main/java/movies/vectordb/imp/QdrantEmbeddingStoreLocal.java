@@ -26,13 +26,16 @@ public class QdrantEmbeddingStoreLocal implements MoviesEmbeddingStore
     @Autowired
     LogicService logicService;
 
-    public static  String QDRANT_URL = "http://localhost:6333";
+    public static  String QDRANT_URL = "http://localhost:6334";
     private static final String INDEX_NAME = "MoviesIndex";
 
     private static final EmbeddingModel embeddingModel = new AllMiniLmL6V2EmbeddingModel();
+    private static QdrantClient qdrantClient;
+    private static QdrantEmbeddingStore qdrantEmbeddingStore;
 
-    public void loadEmbeddingStore()
+    public String loadEmbeddingStore()
     {
+        String status = "loading failed";
         try
         {
             EmbeddingStore<TextSegment> embeddingStore = getEmbeddingStore();
@@ -52,19 +55,27 @@ public class QdrantEmbeddingStoreLocal implements MoviesEmbeddingStore
             // Store embeddings into Qdrant
             embeddingStore.addAll( embeddings, textSegments );
 
+            status = "Successfully loaded";
+
         }
         catch ( Exception e )
         {
-
+            status += " with exception " + e.getMessage();
         }
+        return status;
     }
 
     public static EmbeddingStore<TextSegment> getEmbeddingStore() throws URISyntaxException {
+
+        if ( qdrantEmbeddingStore != null )
+        {
+            return qdrantEmbeddingStore;
+        }
         String qdrantHostName = new URI( QDRANT_URL ).getHost();
         int qdrantPort = new URI( QDRANT_URL ).getPort();
 
         QdrantGrpcClient.Builder grpcClientBuilder = QdrantGrpcClient.newBuilder(qdrantHostName, qdrantPort, false);
-        QdrantClient qdrantClient = new QdrantClient(grpcClientBuilder.build());
+        qdrantClient = new QdrantClient(grpcClientBuilder.build());
 
         try
         {
@@ -79,9 +90,12 @@ public class QdrantEmbeddingStoreLocal implements MoviesEmbeddingStore
         {
 
         }
-        return QdrantEmbeddingStore.builder()
+        qdrantEmbeddingStore = QdrantEmbeddingStore.builder()
                 .client(qdrantClient)
                 .collectionName(INDEX_NAME)
                 .build();
+
+        return qdrantEmbeddingStore;
     }
+
 }
