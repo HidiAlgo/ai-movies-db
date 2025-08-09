@@ -13,8 +13,15 @@ public class LogicService
     @Autowired
     MovieRepository movieRepository;
 
-    public List<Movie> getAllMovies() {
+    public List<Movie> getAllMovies()
+    {
         List<Movie> movieList = movieRepository.findAll();
+        return movieList;
+    }
+
+    public List<Movie> getAllMoviesByDirector( String name )
+    {
+        List<Movie> movieList = movieRepository.findByDirector( name );
         return movieList;
     }
 }
