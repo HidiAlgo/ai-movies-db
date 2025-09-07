@@ -1,6 +1,14 @@
 version: '3.8'
 
 services:
+  app:
+    build: .
+    container_name: spring-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+      - qdrant
   mongo:
     image: mongo
     container_name: mongodb
