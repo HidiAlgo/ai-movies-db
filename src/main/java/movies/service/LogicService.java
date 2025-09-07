@@ -21,7 +21,7 @@ public class LogicService
 
     public List<Movie> getAllMoviesByDirector( String name )
     {
-        List<Movie> movieList = movieRepository.findByDirector( name );
+        List<Movie> movieList = movieRepository.findByDirectorContainingIgnoreCase( name );
         return movieList;
     }
 }

@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface MovieRepository extends MongoRepository<Movie, String> {
-    List<Movie> findByDirector(String director);
+    List<Movie> findByDirectorContainingIgnoreCase(String director);
 }

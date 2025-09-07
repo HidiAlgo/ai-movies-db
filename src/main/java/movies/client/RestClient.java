@@ -5,6 +5,7 @@ import movies.domain.Movie;
 import movies.service.LogicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +25,7 @@ public class RestClient
     }
 
     @GetMapping("/director/{name}")
-    public List<Movie> getAllMoviesByDirector(@PathParam( "name" ) String name )
+    public List<Movie> getAllMoviesByDirector(@PathVariable( "name" ) String name )
     {
         return logicService.getAllMoviesByDirector( name );
     }
